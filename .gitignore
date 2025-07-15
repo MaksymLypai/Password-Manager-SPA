@@ -1,0 +1,10 @@
+# VS Code settings
+.vscode/
+# Exported encrypted data
+password.json
+password_updated.json
+# Logs and backups
+*.log
+*.tmp
+*.bak
+*.swp
