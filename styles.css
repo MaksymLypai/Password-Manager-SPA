@@ -3,3 +3,10 @@ body {
   color: #6500E0;
   font-family: "URW Gothic", serif;
 }
+.dark-theme {
+  background-color: #242424;
+  color: #CDA3FF;
+}
+.dark-theme .btn {
+  background-color: #CDA3FF;
+}
