@@ -17,3 +17,15 @@ const themeToggle = document.getElementById("themeToggle");
 themeToggle.addEventListener("click", () => {
   document.body.classList.toggle("dark-theme");
 });
+document.getElementById("btnRegister").addEventListener("click", function (e) {
+  e.preventDefault();
+  const username = document.getElementById("regUsername").value.trim();
+  const password = document.getElementById("regPassword").value;
+  const key = sha512(password);
+  const data = {
+    master: username,
+    vault: [],
+  };
+  const encrypted = encryptData(data, key);
+  downloadFile(encrypted, "password.json");
+});
