@@ -29,3 +29,33 @@ document.getElementById("btnRegister").addEventListener("click", function (e) {
   const encrypted = encryptData(data, key);
   downloadFile(encrypted, "password.json");
 });
+function decryptData(encrypted, key) {
+  const decrypted = CryptoJS.AES.decrypt(encrypted, key);
+  return JSON.parse(decrypted.toString(CryptoJS.enc.Utf8));
+}
+
+document.getElementById("btnLogin").addEventListener("click", function (e) {
+  e.preventDefault();
+  const username = document.getElementById("loginUsername").value.trim();
+  const password = document.getElementById("loginPassword").value;
+  const fileInput = document.getElementById("passwordFile");
+  const reader = new FileReader();
+  const key = sha512(password);
+
+  reader.onload = function (e) {
+    try {
+      const decrypted = decryptData(e.target.result, key);
+      if (decrypted.master === username) {
+        localStorage.setItem("vault", JSON.stringify(decrypted));
+        localStorage.setItem("vaultKey", key);
+        alert("Login successful");
+      } else {
+        alert("Invalid username or password");
+      }
+    } catch (err) {
+      alert("Invalid file or credentials");
+    }
+  };
+
+  reader.readAsText(fileInput.files[0]);
+});
