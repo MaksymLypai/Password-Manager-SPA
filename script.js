@@ -59,3 +59,26 @@ document.getElementById("btnLogin").addEventListener("click", function (e) {
 
   reader.readAsText(fileInput.files[0]);
 });
+function logout() {
+  const vault = JSON.parse(localStorage.getItem("vault"));
+  const key = localStorage.getItem("vaultKey");
+  const encrypted = encryptData(vault, key);
+  downloadFile(encrypted, "password_updated.json");
+  localStorage.clear();
+  location.reload();
+}
+
+const btnLogout = document.getElementById("btnLogout");
+if (btnLogout) {
+  btnLogout.addEventListener("click", logout);
+}
+
+window.addEventListener("DOMContentLoaded", () => {
+  if (localStorage.getItem("vault")) {
+    document.getElementById("loginForm").style.display = "none";
+    document.getElementById("registerForm").style.display = "none";
+    document.getElementById("searchNewVault").style.display = "block";
+    document.getElementById("vaultSection").style.display = "block";
+    renderVault();
+  }
+});
