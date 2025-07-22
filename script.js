@@ -82,3 +82,19 @@ window.addEventListener("DOMContentLoaded", () => {
     renderVault();
   }
 });
+document.getElementById("btnAddEntry").addEventListener("click", function (e) {
+  e.preventDefault();
+  const vault = JSON.parse(localStorage.getItem("vault"));
+  const entry = {
+    accountName: document.getElementById("accountName").value,
+    app: document.getElementById("appName").value,
+    username: document.getElementById("accountUsername").value,
+    password: document.getElementById("accountPassword").value,
+    oldPasswords: [],
+    strength: getPasswordStrength(document.getElementById("accountPassword").value),
+    created: new Date().toISOString(),
+  };
+  vault.vault.push(entry);
+  localStorage.setItem("vault", JSON.stringify(vault));
+  renderVault();
+});
