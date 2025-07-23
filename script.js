@@ -98,3 +98,20 @@ document.getElementById("btnAddEntry").addEventListener("click", function (e) {
   localStorage.setItem("vault", JSON.stringify(vault));
   renderVault();
 });
+function renderVault() {
+  const vault = JSON.parse(localStorage.getItem("vault"));
+  const tbody = document.getElementById("vaultTableBody");
+  tbody.innerHTML = "";
+  vault.vault.forEach((entry, index) => {
+    const row = `<tr>
+      <td>${entry.accountName}</td>
+      <td>${entry.username}</td>
+      <td>${entry.password}</td>
+      <td>
+        <button class="btn btn-edit" onclick="editEntry(${index})">Edit</button>
+        <button class="btn btn-del" onclick="deleteEntry(${index})">Delete</button>
+      </td>
+    </tr>`;
+    tbody.innerHTML += row;
+  });
+}
