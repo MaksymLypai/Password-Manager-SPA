@@ -115,3 +115,21 @@ function renderVault() {
     tbody.innerHTML += row;
   });
 }
+function editEntry(index) {
+  const vault = JSON.parse(localStorage.getItem("vault"));
+  const entry = vault.vault[index];
+  document.getElementById("accountName").value = entry.accountName;
+  document.getElementById("appName").value = entry.app;
+  document.getElementById("accountUsername").value = entry.username;
+  document.getElementById("accountPassword").value = entry.password;
+  vault.vault.splice(index, 1);
+  localStorage.setItem("vault", JSON.stringify(vault));
+  renderVault();
+}
+
+function deleteEntry(index) {
+  const vault = JSON.parse(localStorage.getItem("vault"));
+  vault.vault.splice(index, 1);
+  localStorage.setItem("vault", JSON.stringify(vault));
+  renderVault();
+}
