@@ -1,16 +1,15 @@
-# Password-Manager-SPA
-An uncomplicated, safe, lightweight SPA that enables you to local manage your credentials in your browser. Made with HTML, CSS, and JS, this is simply a way to manage, generate, and store your credentials without any server or back-end.
+# Password Manager SPA
 
-Features include:
+# Features
+- User registration & login with encrypted JSON file
+- Vault CRUD (add, edit, delete password records)
+- Password generator with strength checker
+- QR code viewer for saved passwords
+- Dark/light mode toggle
+- Session managed with localStorage
 
-User Registration and Login (local/session based)
-
-Add, edit, and delete existing accounts
-
-Password strength meter with visual indications
-
-Built in secure password generator
-
-Import and Export accounts as JSON
-
-Fully Responsive SPA
+# How to Use
+1. Open `index.html` in a browser
+2. Register to generate a password vault file
+3. Login with file to view/edit vault
+4. Use generator, export updated file on logout
