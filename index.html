@@ -1,64 +1,266 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Password Manager</title>
-  <link rel="stylesheet" href="css/styles.css">
+    <meta charset="UTF-8">
+    <title>Password Manager - SPA</title>
+    <link type="text/css" rel="stylesheet" href="css/styles.css">
 </head>
-<body>
-  <div id="registerForm" class="width400">
-  <h2>Register</h2>
-  <form>
-    <label>Username</label>
-    <input type="text" id="regUsername" class="textfield">
-    <label>Password</label>
-    <input type="password" id="regPassword" class="textfield">
-    <button class="btn" id="btnRegister">Register</button>
-  </form>
-</div>
-<div id="loginForm" class="width400">
-  <h2>Login</h2>
-  <form>
-    <label>Username</label>
-    <input type="text" id="loginUsername" class="textfield">
-    <label>Password</label>
-    <input type="password" id="loginPassword" class="textfield">
-    <label>Password File</label>
-    <input type="file" id="passwordFile" class="textfield">
-    <button class="btn" id="btnLogin">Login</button>
-  </form>
-</div>
-  <div id="searchNewVault" class="width700 hidden">
-  <h2>Add New Entry</h2>
-  <form>
-    <label>Account Name</label>
-    <input type="text" id="accountName" class="textfield">
-    <label>App/Website</label>
-    <input type="text" id="appName" class="textfield">
-    <label>Username</label>
-    <input type="text" id="accountUsername" class="textfield">
-    <label>Password</label>
-    <input type="text" id="accountPassword" class="textfield">
-    <button class="btn" id="btnAddEntry">Add</button>
-  </form>
-</div>
-  <input type="text" id="searchInput" placeholder="Search vault..." class="textfield">
-  <table>
-  <thead>
-    <tr>
-      <th>Account Name</th>
-      <th>Username</th>
-      <th>Password</th>
-      <th>Actions</th>
-    </tr>
-  </thead>
-  <tbody id="vaultTableBody"></tbody>
-</table>
-  <div id="header">
-    <h1 class="pwd_title">Password Manager</h1>
-  </div>
-  <button id="themeToggle" class="btn">Toggle Theme</button>
+<body id="bodyWrapper" class="dark-themes">
+    <div id="wrapper">
+        <div id="header">
+            <div class="fl img"><img src="images/logo.png" alt="logo"></div>
+            <div id="vault" class="vault fl" onclick="navigateToVault()">Vault</div>
+            <div id="pwd_title" class="fl pwd_title centered" onclick="navigateToPasswordGenerator()">Password generator</div>
+            <div class="fr" style="padding: 0 10px"><button class="btn btn-logout" onclick="navigateToLogoutUser()">Logout</button></div>
+            <div class="fr" style="padding-right: 30px"><button class="btn" id="themeBtn" onclick="toggleTheme()">Dark Theme</button></div>
+            <div class="clear"></div>
+        </div>
+        <div id="loginForm" class="width400">
+            <div class="row centered"><h1>Sign In</h1></div>
+            <form id="login" method="post">
+                <div class="row centered">
+                    <input type="file" name="attachment" id="attachment" class="btn">
+                    <small id="file-notify" class="error"></small>
+                </div>
+                <div class="row">
+                    <label for="username">Username</label>
+                    <input type="text" name="username" id="username" class="textfield" placeholder="Enter Username" value="">
+                    <small id="username-notification" class="error"></small>
+                </div>
+                <div class="row">
+                    <label for="password">Password</label>
+                    <input type="password" name="password" id="password" value="" class="textfield fl" placeholder="Enter Password" style="width: 80%">
+                    <img src="images/eye-opened.png" class="showPwd" id="showPwd" alt="" onclick="togglePassword('password', 'showPwd')"/>
+                    <small id="password-notification" class="error"></small>
+                </div>
+                <div class="row">
+                    <input type="submit" value="Sign-In" class="btn"/>
+                    <span class="btn fr btn-dull" onclick="navigateToRegister()">Register</span>
+                </div>
+            </form>
+            <small id="signInError" class="error centered bold"></small>
+        </div>
+        <div id="registerForm" class="width400 hidden">
+            <div class="row centered"><h1>Register Account</h1></div>
+            <form id="register">
+                <div class="row">
+                    <label for="usrname">Username</label>
+                    <input type="text" name="username" id="usrname" class="textfield" placeholder="Enter Username" value="">
+                    <div class="clear"></div>
+                    <small id="usrname-notification"></small>
+                </div>
+                <div class="row">
+                    <label for="pwd">Password</label>
+                    <input type="password" name="pwd" id="pwd" value="" class="textfield fl" placeholder="Enter Password" style="width: 83%">
+                    <img src="images/eye-opened.png" class="showPwd" id="showPwd1" alt="" onclick="togglePassword('pwd', 'showPwd1')"/>
+                    <div class="clear"></div>
+                    <small id="pwd-notification"></small>
+                </div>
+                <div class="row">
+                    <label for="pwd_confirm">Confirm Password</label>
+                    <input type="password" name="pwd_confirm" id="pwd_confirm" value="" class="textfield fl" placeholder="Confirm Password" style="width: 83%">
+                    <img src="images/eye-opened.png" class="showPwd" id="showPwd2" alt="" onclick="togglePassword('pwd_confirm', 'showPwd2')"/>
+                    <div class="clear"></div>
+                    <small id="pwd_confirm-notification"></small>
+                </div>
+                <div class="row">
+                    <input type="submit" value="Register" class="btn"/>
+                    <span class="btn btn-dull fr" onclick="navigateToSignIn()">Sign In</span>
+                </div>
+            </form>
+        </div>
+        <div id="searchNewVault" class="width700 hidden">
+            <div class="row">
+                <div class="column col-7">
+                    <label for="searchContent"></label>
+                    <input type="text" name="searchContent" id="searchContent" placeholder="Search Vault" value="#all_vaults" class="textfield">
+                </div>
+                <div class="column col-5 pt-10">
+                    <button class="btn" onclick="searchVault()">Search</button>
+                    <button class="btn ml-20" onclick="navigateToNewVault()">New Vault</button>
+                </div>
+                <div class="clear"></div>
+            </div>
+            <div class="row hidden" id="searchTable"></div>
+            <div class="row" id="" style="padding-top: 40px">
+                <div class="column col-8">
+                    <div class="row">
+                        <h3>Account Name:</h3>
+                        <div id="vaultAccName" class="content"></div>
+                    </div>
+                    <div class="row">
+                        <h3>Website:</h3>
+                        <div id="vaultWebsite" class="content"><a href="#" target="_blank">Facebook Home</a></div>
+                    </div>
+                    <div class="row">
+                        <h3>Username:</h3>
+                        <div id="vaultUsername" class="content"></div>
+                    </div>
+                    <div class="row">
+                        <div class="column col-7">
+                            <h3>Password:</h3>
+                            <div id="vaultPassword" class="content"></div>
+                        </div>
+                        <div class="column col-5">
+                            <h3>Strength: <span id="vaultStrength"></span></h3>
+                            <div class="pt-5"><button class="btn btn-sm">check strength</button></div>
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+                </div>
+                <div class="column col-4">
+                    <div class="qr-container">
+                        <div id="qrcode" class="qr-box"></div>
+                        <div class="pt-5"><button class="btn">Generate QR</button></div>
+                    </div>
+                </div>
+                <div class="clear"></div>
+                <div class="row">
+                    <h3>Notes:</h3>
+                    <div id="vaultNotes" class="content no-indent">
+                    </div>
+                </div>
+            </div>
+            <div id="newVault" class="hidden">
+                <div class="row centered"><h2>Add New Vault</h2></div>
+                <form id="registerNewVault" method="post">
+                    <div class="row pt-10">
+                        <div class="hidden">
+                            <label for="vaultQuery"></label>
+                            <input type="text" name="vaultQuery" id="vaultQuery" value="add">
+                        </div>
+
+                        <div class="column col-4">
+                            <label for="newUsername">Username</label>
+                            <input type="text" name="newUsername" id="newUsername" class="textfield" placeholder="Enter Username"/>
+                        </div>
+                        <div class="column col-4">
+                            <label for="newPassword">Password</label>
+                            <input type="password" name="newPassword" id="newPassword" class="textfield" placeholder="Enter Password"/>
+                        </div>
+                        <div class="column col-4">
+                            <label for="newCPassword">Confirm Password</label>
+                            <input type="password" name="newCPassword" id="newCPassword" class="textfield" placeholder="Confirm Password"/>
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+                    <div class="row pt-10">
+                        <label for="newVaultWebsite">Website</label>
+                        <input type="text" name="newVaultWebsite" id="newVaultWebsite" placeholder="https://www.example.com/" class="textfield" style="width: 95%"/>
+                    </div>
+                    <div class="row pt-10">
+                        <div class="column col-6">
+                            <label for="newAccName">Account Name</label>
+                            <input type="text" name="newAccName" id="newAccName" class="textfield" placeholder="Account Name"/>
+                        </div>
+                        <div class="column col-6">
+                            <label for="newAppName">Application Name</label>
+                            <input type="text" name="newAppName" id="newAppName" class="textfield" placeholder="Application Name"/>
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+                    <div class="row">
+                        <div class="column col-4">
+                            <label for="newPlayMins">Play Mins</label>
+                            <input type="number" name="newPlayMins" id="newPlayMins" class="textfield" placeholder="Enter Play Mins" min="0"/>
+                        </div>
+                        <div class="column col-4">
+                            <label for="newScore">Score</label>
+                            <input type="number" name="newScore" id="newScore" class="textfield" placeholder="Enter Score" min="0"/>
+                        </div>
+                        <div class="column col-4">
+                            <label for="newPasswordLevel">Password Level</label>
+                            <input type="number" name="newPasswordLevel" id="newPasswordLevel" class="textfield" placeholder="Enter Password Level" min="1" max="3"/>
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+                    <div class="row">
+                        <label for="textarea"> Extra Information</label>
+                        <textarea class="textarea" name="textarea" id="textarea" placeholder="Enter Extra Information Here"></textarea>
+                    </div>
+                    <div class="row error" id="newVaultError"></div>
+                    <div class="row centered">
+                        <button class="btn" id="vaultBtnName">Add New Vault</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div id="passwordGenerator" class="width800 hidden">
+            <div class="row">
+                <div class="column col-7">
+                    <div class="row">
+                        <h3>Password:</h3>
+                    </div>
+                    <div class="row">
+                        <div id="generatedPassword" class="content no-indent"></div>
+                    </div>
+                    <div class="row">
+                        <button class="btn" onclick="generatePassword()">Generate Password</button>
+                        <button class="btn" onclick="copyPassword()">Copy Password</button>
+                    </div>
+                    <div class="row">
+                        <div id="qrcode2" class="qr-box"></div>
+                    </div>
+                </div>
+                <div class="column col-5">
+                    <div class="row">
+                        <div class="column col-7 col-header">Special Characters:</div>
+                        <div class="column col-4 checkbox">
+                            <input type="checkbox" name="specialChars" id="specialChars">
+                            <label for="specialChars"></label>
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+                    <div class="row">
+                        <div class="column col-7 col-header">Numbers:</div>
+                        <div class="column col-4 checkbox">
+                            <input type="checkbox" name="numbers" id="numbers" checked="checked">
+                            <label for="numbers"></label>
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+                    <div class="row">
+                        <div class="column col-7 col-header">Capital Letters:</div>
+                        <div class="column col-4 checkbox">
+                            <input type="checkbox" name="uppercase" id="uppercase" checked="checked">
+                            <label for="uppercase"></label>
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+                    <div class="row">
+                        <div class="column col-7 col-header">Lowercase Letters:</div>
+                        <div class="column col-4 checkbox">
+                            <input type="checkbox" name="lowercase" id="lowercase" checked="checked">
+                            <label for="lowercase"></label>
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+                    <div class="row">
+                        <div class="column col-7 col-header">Letters Length:</div>
+                        <div class="column col-4">
+                            <input type="text" class="letterSize" id="letterSize" value="12">
+                            <label for="letterSize"></label>
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+                </div>
+                <div class="clear"></div>
+            </div>
+        </div>
+        <div id="logoutForm" class="width400 hidden">
+            <div class="row">
+                <label for="pwd_logout">Confirm password to Logout and Save changes</label>
+                <input type="password" id="pwd_logout" value="" class="textfield fl" placeholder="Enter Password" style="width: 83%">
+                <img src="images/eye-opened.png" class="showPwd" id="pwdLogout" alt="" onclick="togglePassword('pwd_logout', 'pwdLogout')"/>
+            </div>
+            <div class="row centered">
+                <button class="btn" onclick="logoutUser()">Logout User</button>
+            </div>
+            <div class="row centered" id="logoutError"></div>
+        </div>
+    </div>
 </body>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.2.0/crypto-js.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 <script src="script.js"></script>
 </html>
