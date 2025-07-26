@@ -56,7 +56,6 @@ document.getElementById("btnLogin").addEventListener("click", function (e) {
       alert("Invalid file or credentials");
     }
   };
-
   reader.readAsText(fileInput.files[0]);
 });
 function logout() {
@@ -115,6 +114,34 @@ function renderVault() {
     tbody.innerHTML += row;
   });
 }
+function searchVault(query) {
+  const vault = JSON.parse(localStorage.getItem("vault"));
+  return vault.vault.filter(item =>
+    item.accountName.toLowerCase().includes(query.toLowerCase()) ||
+    item.app.toLowerCase().includes(query.toLowerCase()) ||
+    item.username.toLowerCase().includes(query.toLowerCase())
+  );
+}
+const searchInput = document.getElementById("searchInput");
+if (searchInput) {
+  searchInput.addEventListener("input", () => {
+    const result = searchVault(searchInput.value);
+    const tbody = document.getElementById("vaultTableBody");
+    tbody.innerHTML = "";
+    result.forEach((entry, index) => {
+      const row = `<tr>
+        <td>${entry.accountName}</td>
+        <td>${entry.username}</td>
+        <td>${entry.password}</td>
+        <td>
+          <button class="btn btn-edit" onclick="editEntry(${index})">Edit</button>
+          <button class="btn btn-del" onclick="deleteEntry(${index})">Delete</button>
+        </td>
+      </tr>`;
+      tbody.innerHTML += row;
+    });
+  });
+}
 function editEntry(index) {
   const vault = JSON.parse(localStorage.getItem("vault"));
   const entry = vault.vault[index];
@@ -126,7 +153,6 @@ function editEntry(index) {
   localStorage.setItem("vault", JSON.stringify(vault));
   renderVault();
 }
-
 function deleteEntry(index) {
   const vault = JSON.parse(localStorage.getItem("vault"));
   vault.vault.splice(index, 1);
