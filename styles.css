@@ -1,12 +1,319 @@
-body {
-  background-color: #F0F0F0;
-  color: #6500E0;
-  font-family: "URW Gothic", serif;
+*{
+    margin: 0;
 }
-.dark-theme {
-  background-color: #242424;
-  color: #CDA3FF;
+body{
+    background-color: #F0F0F0;
+    color: #6500E0;
 }
-.dark-theme .btn {
-  background-color: #CDA3FF;
+.dark-theme{
+    background-color: #242424;
+    color: #CDA3FF;
+}
+.dark-theme #newVault{
+        border-top-color: #CDA3FF;
+}
+.dark-theme #loginForm, .dark-theme #registerForm, .dark-theme #searchNewVault, .dark-theme #passwordGenerator, .dark-theme #logoutForm{
+    border-color: #CDA3FF;
+}
+.dark-theme .btn{
+    background-color: #CDA3FF;
+}
+.dark-theme .qr-box{
+    border-color: #CDA3FF;
+}
+.dark-theme .letterSize{
+    border-color: #CDA3FF;
+    color: #CDA3FF;
+}
+.row{
+    padding: 7px;
+    width: 100%;
+}
+.column{
+    float: left;
+    padding: 0 5px;
+}
+.column.col-10{
+    width: 83%;
+}
+.column.col-9{
+    width: 75%;
+}
+.column.col-8{
+    width: 65%;
+}
+.column.col-7{
+    width: 55%;
+}
+.column.col-6{
+    width: 48.5%;
+}
+.column.col-5{
+    width: 40%;
+}
+.column.col-4{
+    width: 31.5%;
+}
+.column.col-3{
+    width: 24%;
+}
+.column.col-2{
+    width: 16.25%;
+}
+label{
+    display: block;
+    font-size: 14px;
+    font-weight: bold;
+    font-family: "URW Gothic", serif;
+    padding-bottom: 5px;
+    letter-spacing: 1px;
+    text-indent: 2px;
+}
+.btn{
+    background-color: #6500E0;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    border: 1px solid transparent;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    font-family: "URW Gothic", serif;
+    text-transform: capitalize;
+}
+.btn.btn-sm{
+    padding: 5px 10px;
+}
+.btn.btn-dull{
+    background-color: grey;
+}
+.btn.btn-show, .btn.btn-edit, .btn.btn-del{
+    background-color: transparent;
+    border-radius: 0;
+}
+.textfield, .textarea{
+    padding: 15px 10px;
+    border: 2px solid lightgrey;
+    background-color: whitesmoke;
+    width: 90%;
+    font-family: "URW Gothic", serif;
+    color: #6500E0;
+    font-weight: bold;
+    letter-spacing: 2px;
+    text-indent: 5px;
+    transition: border 0.3s ease;
+}
+.textarea{
+    width: 96%;
+    height: 150px;
+    font-size: 16px;
+    transition: border 0.3s ease;
+}
+.textfield:focus, .textarea:focus{
+    border: 2px solid #6500E0;
+    outline: none;
+}
+.fl{
+    float: left;
+}
+.fr{
+    float: right;
+}
+.clear{
+    clear: both;
+}
+.centered{
+    text-align: center;
+}
+h1{
+    padding-bottom: 10px;
+}
+.showPwd{
+    width: 30px;
+    height: 30px;
+    border-radius: 20px;
+    overflow: hidden;
+    margin-left: 5px;
+    padding-top: 10px;
+}
+.hidden{
+    display: none;
+}
+#loginForm, #registerForm, #searchNewVault, #passwordGenerator, #logoutForm{
+    border: 2px solid #6500E0;
+    margin: 40px auto 0;
+    padding: 20px 30px;
+    border-radius: 10px;
+}
+.width400{
+    width: 400px;
+}
+.width500{
+    width: 500px;
+}
+.width600{
+    width: 600px;
+}
+.width700{
+    width: 700px;
+}
+.width800{
+    width: 800px;
+}
+.width1000{
+    width: 1000px;
+}
+#header{
+    padding: 20px 10px 10px 25px;
+}
+#header img{
+    width: 60%;
+}
+#header .img{
+    width: 100px;
+}
+#header .vault, #header .pwd_title{
+    font-size: 40px;
+    padding-top: 10px;
+}
+#header .vault{
+    width: 300px;
+}
+#header .pwd_title{
+    width: 400px;
+    margin: 0 auto;
+    text-transform: capitalize;
+}
+.loading{
+    width: 120px;
+    border-radius: 50%;
+}
+.pt-5{
+    padding-top: 5px;
+}
+.pt-10{
+    padding-top: 10px;
+}
+.p-0{
+    padding: 0;
+}
+.ml-20{
+    margin-left: 20px;
+}
+.checkbox{
+    position: relative;
+    display: inline-block;
+}
+.checkbox input[type="checkbox"]{
+    display: none;
+}
+.checkbox label{
+    display: inline-block;
+    width: 35px;
+    height: 30px;
+    cursor: pointer;
+    background-image: url("../images/unchecked-purple.png");
+    background-size: cover;
+}
+.checkbox input[type="checkbox"]:checked + label{
+    background-image: url("../images/checked-purple.png");
+}
+a{
+    text-decoration: none;
+    font-size: 18px;
+    display: inline-block;
+    padding-top: 5px;
+}
+.content{
+    text-indent: 15px;
+    padding-top: 5px;
+    font-family: "URW Gothic", serif;
+}
+.col-header{
+    font-family: "URW Gothic", serif;
+}
+.no-indent{
+    text-indent: 0;
+}
+.qr-container{
+    height: 250px;
+    border: 2px solid transparent;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+}
+#qrcode{
+    align-items: flex-start;
+    margin-bottom: 50px;
+    position: absolute;
+}
+#newVault{
+    border-top: 5px groove firebrick;
+    margin-top: 20px;
+    padding-top: 20px;
+}
+#searchTable{
+    border-bottom: 5px groove firebrick;
+    padding-bottom: 20px;
+}
+.letterSize{
+    width: 16%;
+    border: 3px solid #6500E0;
+    padding: 9px 10px 4px;
+    border-radius: 8px;
+    background: transparent;
+    font-family: "URW Gothic", serif;
+    font-weight: bold;
+    text-align: center;
+    color: #6500E0;
+}
+.qr-box{
+    width: 200px;
+    height: 200px;
+    border: 8px solid #6500E0;
+}
+.error{
+    color: red;
+}
+.success{
+    color: green;
+}
+.error, .success{
+    text-transform: capitalize;
+    font-size: 16px;
+    display: block;
+    font-family: "URW Gothic", serif;
+}
+.bold{
+    font-weight: bold;
+}
+table{
+    width: 100%;
+    border-collapse: collapse;
+    font-family: "URW Gothic", serif;
+}
+thead{
+    background-color: black;
+    color: white;
+}
+thead th{
+    padding: 5px;
+    text-align: left;
+}
+tbody tr{
+    border-bottom: 2px solid #ddd;
+    font-size: 14px;
+}
+tbody td{
+    text-wrap: normal;
+}
+tbody tr:hover{
+    background-color: lightsteelblue;
+    color: white;
+}
+.capitalize{
+    text-transform: capitalize;
+}
+.uppercase{
+    text-transform: uppercase;
 }
